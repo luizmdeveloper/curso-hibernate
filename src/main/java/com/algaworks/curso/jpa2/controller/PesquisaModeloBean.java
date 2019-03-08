@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import com.algaworks.curso.jpa2.dao.ModeloDAO;
 import com.algaworks.curso.jpa2.modelo.Modelo;
+import com.algaworks.curso.jpa2.modelolazy.LazyModeloDataModel;
 import com.algaworks.curso.jpa2.service.exception.NegocioException;
 import com.algaworks.curso.jpa2.util.jsf.FacesUtil;
 
@@ -20,6 +21,7 @@ public class PesquisaModeloBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;	
 	private List<Modelo> modelos = new ArrayList<>();
+	private LazyModeloDataModel lazyModelos;
 	
 	private Modelo modeloSelecionado;
 	
@@ -28,7 +30,7 @@ public class PesquisaModeloBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		this.modelos = modeloDAO.buscarTodos();
+		lazyModelos = new LazyModeloDataModel(modeloDAO);
 	}
 	
 	public void excluir() {
@@ -51,5 +53,9 @@ public class PesquisaModeloBean implements Serializable {
 
 	public List<Modelo> getModelos() {
 		return modelos;
+	}
+
+	public LazyModeloDataModel getLazyModelos() {
+		return lazyModelos;
 	}
 }

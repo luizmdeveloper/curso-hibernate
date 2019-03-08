@@ -42,4 +42,15 @@ public class MotoristaDAO implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Motorista> buscarTodosPaginacao(int first, int pageSize) {
+		return entityManager.createQuery("FROM Motorista m")
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();
+	}
+
+	public Long buscarTotalRegitro() {
+		return entityManager.createQuery("SELECT COUNT(m) FROM Motorista m", Long.class).getSingleResult();
+	}
 }

@@ -39,6 +39,18 @@ public class ModeloDAO implements Serializable {
 		} catch (PersistenceException e) {
 			throw new NegocioException("Modelo de carro não pode ser excluído!");
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Modelo> buscarTodosPaginacao(int first, int pageSize) {
+		return entityManager.createQuery("FROM Modelo")
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();
+	}
+
+	public Long buscarTotalRegistro() {
+		return entityManager.createQuery(" SELECT COUNT(m) FROM Modelo m", Long.class).getSingleResult();
 	}	
 
 }

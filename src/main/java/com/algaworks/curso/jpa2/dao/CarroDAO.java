@@ -48,4 +48,16 @@ public class CarroDAO implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Carro> buscarTodosPaginacao(int first, int pageSize) {
+		return entityManager.createNamedQuery("Carro.buscarTodos")
+					.setFirstResult(first)
+					.setMaxResults(pageSize)
+					.getResultList();
+	}
+
+	public Long buscarTotalRegistro() {
+		return entityManager.createQuery("SELECT COUNT(c) FROM Carro c", Long.class).getSingleResult();
+	}
+
 }

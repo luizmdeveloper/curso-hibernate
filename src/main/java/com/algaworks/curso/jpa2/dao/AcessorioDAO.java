@@ -43,4 +43,16 @@ public class AcessorioDAO implements Serializable {
 		return entityManager.find(Acessorio.class, codigo);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Acessorio> buscarTodosPaginacao(int first, int pageSize) {
+		return entityManager.createQuery("FROM Acessorio a")
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();
+	}
+
+	public Long buscarTotalRegistro() {
+		return entityManager.createQuery("SELECT COUNT(a) FROM Acessorio a", Long.class).getSingleResult();
+	}
+
 }

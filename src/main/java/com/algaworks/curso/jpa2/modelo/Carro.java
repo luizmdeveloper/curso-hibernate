@@ -14,9 +14,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Carro.buscarTodos", query=" FROM Carro c ")
+})
 public class Carro implements Serializable {
 
 	private static final long serialVersionUID = 1L;

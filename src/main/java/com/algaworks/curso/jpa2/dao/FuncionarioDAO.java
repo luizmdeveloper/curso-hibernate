@@ -42,4 +42,16 @@ public class FuncionarioDAO implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Funcionario> buscarTodosPaginacao(int first, int pageSize) {
+		return entityManager.createQuery("FROM Funcionario f")
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();
+	}
+
+	public Long buscarTotalRegistro() {
+		return entityManager.createQuery("SELECT COUNT(f) FROM Funcionario f", Long.class).getSingleResult();
+	}
+
 }

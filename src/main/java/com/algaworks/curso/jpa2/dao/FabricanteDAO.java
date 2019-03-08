@@ -43,4 +43,17 @@ public class FabricanteDAO implements Serializable {
 		return entityManager.find(Fabricante.class, codigo);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Fabricante> buscarTodosPaginacao(int first, int pageSize) {
+		return entityManager.createQuery("FROM Fabricante f")
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();
+	}
+
+	public Long buscarTotalRegistro() {
+		return entityManager.createQuery("SELECT COUNT(f) FROM Fabricante f", Long.class).getSingleResult();
+	}
+
+
 }
