@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Carro.buscarTodos", query=" FROM Carro c ")
+	@NamedQuery(name="Carro.buscarTodos", query=" SELECT c FROM Carro c INNER JOIN FETCH c.modelo")
 })
 public class Carro implements Serializable {
 
