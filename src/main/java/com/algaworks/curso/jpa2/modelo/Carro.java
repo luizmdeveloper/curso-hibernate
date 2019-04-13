@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -49,6 +50,9 @@ public class Carro implements Serializable {
 	
 	@OneToMany(mappedBy="carro")
 	private List<Aluguel> alugueis;
+
+	@Lob
+	private byte[] foto; 
 
 	public Long getCodigo() {
 		return codigo;
@@ -112,6 +116,14 @@ public class Carro implements Serializable {
 
 	public void setAlugueis(List<Aluguel> alugueis) {
 		this.alugueis = alugueis;
+	}
+	
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
 	}
 
 	@Override
