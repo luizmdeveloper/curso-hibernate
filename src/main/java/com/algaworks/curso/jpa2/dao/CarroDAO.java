@@ -7,6 +7,13 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Restrictions;
+
+import com.algaworks.curso.jpa2.modelo.Aluguel;
 import com.algaworks.curso.jpa2.modelo.Carro;
 import com.algaworks.curso.jpa2.service.exception.NegocioException;
 import com.algaworks.curso.jpa2.util.jpa.Transactional;
@@ -58,6 +65,20 @@ public class CarroDAO implements Serializable {
 
 	public Long buscarTotalRegistro() {
 		return entityManager.createQuery("SELECT COUNT(c) FROM Carro c", Long.class).getSingleResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Carro> buscarCarrosNuncaAlugados() {
+		Session session = this.entityManager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(Carro.class);
+		
+		DetachedCriteria criteriaAlugueis = DetachedCriteria.forClass(Aluguel.class);
+		criteriaAlugueis.setProjection(Property.forName("carro"));
+		criteriaAlugueis.add(Restrictions.isNotNull("carro"));
+		
+		criteria.add(Property.forName("codigo").notIn(criteriaAlugueis));
+		
+		return criteria.list();
 	}
 
 }
