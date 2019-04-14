@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 public class Acessorio implements Serializable {
 	
@@ -15,6 +17,8 @@ public class Acessorio implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
+	
+	@NotBlank(message="Descrição é obrigatória")
 	private String descricao;
 	
 	public Long getCodigo() {

@@ -17,16 +17,7 @@ public class ModeloService implements Serializable {
 	private ModeloDAO modeloDAO;
 	
 	@Transactional
-	public void salvar(Modelo modelo) throws NegocioException {
-		
-		if (modelo.getDescricao() == null || modelo.getDescricao().trim().equals("")) {
-			throw new NegocioException("Descrição é obrigatório");
-		}
-		
-		if (modelo.getFabricante() == null) {
-			throw new NegocioException("Fabricante é obrigatório");
-		}
-		
+	public void salvar(Modelo modelo) throws NegocioException {		
 		modeloDAO.salvar(modelo);
 	}
 }

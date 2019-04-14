@@ -18,10 +18,6 @@ public class AcessorioService implements Serializable {
 	
 	@Transactional
 	public void salvar(Acessorio acessorio) throws NegocioException {		
-		if (acessorio.getDescricao() == null || acessorio.getDescricao().trim().equals("")) {
-			throw new NegocioException("Descrição é obrigatório!");
-		}
-		
 		acessorioDAO.salvar(acessorio);
 	}
 

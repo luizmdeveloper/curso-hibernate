@@ -17,12 +17,7 @@ public class CarroService implements Serializable {
 	private CarroDAO carroDAO;
 	
 	@Transactional
-	public void salvar(Carro carro) throws NegocioException {
-		
-		if (carro.getPlaca() == null || carro.getPlaca().trim().equals("")) {
-			throw new NegocioException("Placa é obtigatório!!");
-		}
-		
+	public void salvar(Carro carro) throws NegocioException {	
 		carroDAO.salvar(carro);
 	}
 

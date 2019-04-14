@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 public class Modelo implements Serializable {
 	
@@ -20,6 +22,8 @@ public class Modelo implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
+	
+	@NotBlank(message="Descrição é obrigatória")
 	private String descricao;
 	
 	@Enumerated(EnumType.STRING)

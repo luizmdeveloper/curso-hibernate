@@ -18,11 +18,6 @@ public class FabricanteService implements Serializable {
 	
 	@Transactional
 	public void salvar(Fabricante fabricante) throws NegocioException {
-		
-		if (fabricante.getNome() == null || fabricante.getNome().trim().equals("")) {
-			throw new NegocioException("Nome do fabricante é obrigatório!");
-		}
-		
 		this.fabricanteDAO.salvar(fabricante);
 	}
 

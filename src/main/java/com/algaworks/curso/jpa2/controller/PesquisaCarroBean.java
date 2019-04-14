@@ -29,7 +29,7 @@ public class PesquisaCarroBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		lazyCarros = new LazyCarroDataModel(carroDAO);
+		lazyCarros = new LazyCarroDataModel(carroDAO);		
 	}
 	
 	public void excluir() {
