@@ -1,6 +1,7 @@
 package com.algaworks.curso.jpa2.dao;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,7 +18,9 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.StandardBasicTypes;
 
 import com.algaworks.curso.jpa2.modelo.Aluguel;
 import com.algaworks.curso.jpa2.modelo.Modelo;
@@ -104,5 +107,16 @@ public class AluguelDAO implements Serializable {
 		dataEntregaFinal.set(Calendar.SECOND, 59);
 		
 		return dataEntregaFinal.getTime();
+	}
+
+	public BigDecimal buscarTotdalAlugueisMesDe(int mes) {
+		Session session = this.entityManager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(Aluguel.class);
+		
+		criteria.setProjection(Projections.sum("valorTotal"));
+		
+		criteria.add(Restrictions.sqlRestriction("month(dataPedido) = ? ", mes, StandardBasicTypes.INTEGER));
+		
+		return (BigDecimal) criteria.uniqueResult();
 	}
 }
