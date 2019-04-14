@@ -1,0 +1,41 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de carros por fabricante</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Pesquisa de carros por fabricante</h1>
+    	
+    	<h:form id="frmPesquisa">    		
+    		<p:toolbar style="margin-top: 20px">
+    			<p:toolbarGroup>
+    				<p:inputText id="nomeFabricante" size="60" maxlength="60" value="#{pesquisaCarroPorFabricanteBean.nomeFabricante}"/>
+    				<p:commandButton value="Pesquisa" id="pesquisar" action="#{pesquisaCarroPorFabricanteBean.buscar}" update="@form"/>
+    			</p:toolbarGroup>
+    		</p:toolbar>
+    	
+	    	<p:dataTable id="carrosTable" value="#{pesquisaCarroPorFabricanteBean.carros}" var="carro"
+		    		style="margin-top: 20px" emptyMessage="Nenhum carro encontrado." rows="5"
+		    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+		    		lazy="true" rowsPerPageTemplate="5,10,15">
+		    		<p:column headerText="Código" style="text-align: center; width: 100px">
+		    			<h:outputText value="#{carro.codigo}" />
+		    		</p:column>
+		    		<p:column headerText="Placa">
+		    			<h:outputText value="#{carro.placa}" />
+		    		</p:column>
+		    		<p:column headerText="Cor">
+		    			<h:outputText value="#{carro.cor}" />
+		    		</p:column>
+		    		<p:column headerText="Valor diária">
+		    			<h:outputText value="#{carro.valorDiaria}" />
+		    		</p:column>
+		    </p:dataTable>
+				    	
+	    </h:form>
+    </ui:define>
+</ui:composition>

@@ -10,6 +10,7 @@ import javax.persistence.PersistenceException;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
@@ -102,4 +103,17 @@ public class CarroDAO implements Serializable {
 		return criteria.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Carro> buscarPorNomeFabricante(String nomeFabricante) {
+		Session session = this.entityManager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(Carro.class);		
+		criteria.createAlias("modelo", "m");
+		criteria.createAlias("m.fabricante", "f");
+		
+		if (nomeFabricante != null || !nomeFabricante.equals("")) {
+			criteria.add(Restrictions.ilike("f.nome", nomeFabricante, MatchMode.ANYWHERE));			
+		}
+		
+		return criteria.list();
+	}
 }
