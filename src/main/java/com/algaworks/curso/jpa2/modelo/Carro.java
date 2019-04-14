@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -42,7 +41,6 @@ public class Carro implements Serializable {
 	@Column(name="valor_diaria")
 	private BigDecimal valorDiaria;
 	
-	@NotNull(message="Fabricante é obgitaório")
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="codigo_modelo")
 	private Modelo modelo;

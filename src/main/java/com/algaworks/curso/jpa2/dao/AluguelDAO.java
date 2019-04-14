@@ -15,6 +15,10 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
 import com.algaworks.curso.jpa2.modelo.Aluguel;
 import com.algaworks.curso.jpa2.modelo.Modelo;
 
@@ -54,20 +58,8 @@ public class AluguelDAO implements Serializable {
 		TypedQuery<Aluguel> query = entityManager.createQuery(criteria);
 		
 		if (dataEntrega != null) {
-			Calendar dataEntregaInicial = Calendar.getInstance();
-			dataEntregaInicial.setTime(dataEntrega);
-			dataEntregaInicial.set(Calendar.HOUR_OF_DAY, 0);
-			dataEntregaInicial.set(Calendar.MINUTE, 0);
-			dataEntregaInicial.set(Calendar.SECOND, 0);			
-			
-			Calendar dataEntregaFinal = Calendar.getInstance();
-			dataEntregaFinal.setTime(dataEntrega);
-			dataEntregaFinal.set(Calendar.HOUR_OF_DAY, 23);
-			dataEntregaFinal.set(Calendar.MINUTE, 59);
-			dataEntregaFinal.set(Calendar.SECOND, 59);
-			
-			query.setParameter("dataEntregaInicial", dataEntregaInicial.getTime());
-			query.setParameter("dataEntregaFinal", dataEntregaFinal.getTime());
+			query.setParameter("dataEntregaInicial", gerarDataEntregaInicial(dataEntrega));
+			query.setParameter("dataEntregaFinal", gerarDataEntregaFinal(dataEntrega));
 		}
 		
 		if (modelo != null) {
@@ -77,4 +69,40 @@ public class AluguelDAO implements Serializable {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Aluguel> buscarPorDataEntregaEModeloCarroCriteria(Date dataEntrega, Modelo modelo) {
+		Session session = this.entityManager.unwrap(Session.class);		
+		Criteria criteria = session.createCriteria(Aluguel.class);
+		
+		if (dataEntrega != null) {
+			criteria.add(Restrictions.between("dataEntrega", gerarDataEntregaInicial(dataEntrega), gerarDataEntregaFinal(dataEntrega)));
+		}
+		
+		if (modelo != null) {
+			criteria.createAlias("carro", "c");
+			criteria.add(Restrictions.eq("c.modelo", modelo));
+		}
+		
+		return criteria.list();
+	}
+	
+	private Date gerarDataEntregaInicial(Date dataEntrega) {
+		Calendar dataEntregaInicial = Calendar.getInstance();
+		dataEntregaInicial.setTime(dataEntrega);
+		dataEntregaInicial.set(Calendar.HOUR_OF_DAY, 0);
+		dataEntregaInicial.set(Calendar.MINUTE, 0);
+		dataEntregaInicial.set(Calendar.SECOND, 0);			
+
+		return dataEntregaInicial.getTime();
+	}
+	
+	private Date gerarDataEntregaFinal(Date dataEntrega) {
+		Calendar dataEntregaFinal = Calendar.getInstance();
+		dataEntregaFinal.setTime(dataEntrega);
+		dataEntregaFinal.set(Calendar.HOUR_OF_DAY, 23);
+		dataEntregaFinal.set(Calendar.MINUTE, 59);
+		dataEntregaFinal.set(Calendar.SECOND, 59);
+		
+		return dataEntregaFinal.getTime();
+	}
 }

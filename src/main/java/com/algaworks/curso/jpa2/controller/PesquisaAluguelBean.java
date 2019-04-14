@@ -36,6 +36,7 @@ public class PesquisaAluguelBean implements Serializable {
 	public void init() {
 		this.aluguel = new Aluguel();
 		this.carro = new Carro();
+		this.carro.setModelo(new Modelo());
 		this.alugueis = new ArrayList<Aluguel>();
 		this.modelos = modeloDAO.buscarTodos();
 	}
@@ -50,6 +51,10 @@ public class PesquisaAluguelBean implements Serializable {
 
 	public void pesquisar() {
 		this.alugueis = aluguelDAO.buscarPorDataEntregaEModeloCarro(this.aluguel.getDataEntrega(), this.carro.getModelo());
+	}
+	
+	public void pesquisarCriteria() {
+		this.alugueis = aluguelDAO.buscarPorDataEntregaEModeloCarroCriteria(this.aluguel.getDataEntrega(), this.carro.getModelo());
 	}
 
 	public Aluguel getAluguel() {
