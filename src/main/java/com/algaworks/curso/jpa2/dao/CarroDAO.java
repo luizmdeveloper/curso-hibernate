@@ -110,7 +110,7 @@ public class CarroDAO implements Serializable {
 		criteria.createAlias("modelo", "m");
 		criteria.createAlias("m.fabricante", "f");
 		
-		if (nomeFabricante != null || !nomeFabricante.equals("")) {
+		if (nomeFabricante != null && nomeFabricante.equals("")) {
 			criteria.add(Restrictions.ilike("f.nome", nomeFabricante, MatchMode.ANYWHERE));			
 		}
 		
